@@ -24,9 +24,10 @@ public class ClassroomService {
         return classroomRepository.findById(id).map(ClassroomMapper::mapClassroomDto);
     }
 
-    public Optional<Classroom> getClassroomFromUser(Optional<User> user){
+    public Optional<Classroom> getClassroomFromUser(Optional<User> user) {
         return classroomRepository.findClassroomByUser(user);
     }
+
 
 //    public ClassroomDto createClassroom(ClassroomDto classroom) {
 //        return saveClassroom(classroom);

@@ -41,9 +41,6 @@ public class LessonService {
         return lessonRepository.findAllByClassroom(classroomService.getClassroomFromUser(userService.getUserFromSession())).stream().map(LessonMapper::mapLessonTo).collect(Collectors.toList());
     }
 
-    public List<LessonDto> getChatLessons() {
-        return lessonRepository.findAllByClassroom(classroomService.getClassroomFromUser(userService.getUserFromSession())).stream().map(LessonMapper::mapLessonTo).collect(Collectors.toList());
-    }
 
     //public void changeLessonState(LessonDto lessonDto) {
     //     Lesson lesson = lessonRepository.getOne(lessonDto.getId());
