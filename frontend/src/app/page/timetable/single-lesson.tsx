@@ -58,7 +58,7 @@ const SingleLesson: React.FC<Props> = (props) => {
                 footer={null}
                 onCancel={handleOk}
                 okButtonProps={{
-                    children: 'Custom OK',
+                    children: 'Custom   OK',
                 }}
             >
                 {checkUserRoleForModal() ?
