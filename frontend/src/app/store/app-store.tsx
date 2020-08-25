@@ -1,12 +1,15 @@
 import * as React from 'react';
 
-import { Actions, INITIAL_SESSION, INITIAL_CURRENT_LESSON, INITIAL_SCHEDULE, Session, settingsContext } from 'app/context';
+import {
+    Actions, INITIAL_SESSION, INITIAL_CURRENT_LESSON, INITIAL_SCHEDULE, Session, settingsContext, INITIAL_MESSAGES,
+} from 'app/context';
 
 interface State {
     session: Session;
     lessons: Api.LessonDto[];
     currentLesson: number;
     schedule: Api.ScheduleDto[];
+    messagesList: Api.ChatMessagesDto[];
 }
 
 class AppStore extends React.Component<{}, State> {
@@ -16,6 +19,7 @@ class AppStore extends React.Component<{}, State> {
         lessons: null,
         currentLesson: INITIAL_CURRENT_LESSON,
         schedule: INITIAL_SCHEDULE,
+        messagesList: INITIAL_MESSAGES,
     };
 
     public render(): React.ReactNode {
@@ -28,6 +32,7 @@ class AppStore extends React.Component<{}, State> {
             lessons,
             currentLesson,
             schedule,
+            messagesList,
         } = this.state;
 
         const actions: Actions = {
@@ -35,10 +40,12 @@ class AppStore extends React.Component<{}, State> {
             updateLessons: this.updateLessons,
             updateCurrentLesson: this.updateCurrentLesson,
             updateSchedule: this.updateSchedule,
+            updateMessages: this.updateMessages,
+            sendMessage: this.sendMessage,
         };
 
         return (
-            <settingsContext.Provider value={{ session, lessons, currentLesson, actions, schedule }}>
+            <settingsContext.Provider value={{ session, lessons, currentLesson, actions, schedule, messagesList }}>
                 {children}
             </settingsContext.Provider>
         );
@@ -57,9 +64,18 @@ class AppStore extends React.Component<{}, State> {
     };
 
     private readonly updateSchedule = (schedule: Api.ScheduleDto[]): void => {
+        console.log('UPDATE SCHEDULE');
         this.setState({ schedule });
     };
 
+    private readonly updateMessages = (newMessage: Api.ChatMessagesDto[]): void => {
+        console.log('app store ', newMessage);
+        // this.setState({ messagesList: [...newMessage] });
+    };
+
+    private readonly  sendMessage = (newMessage: Api.ChatMessagesDto[]): void => {
+        console.log('app store ', newMessage);
+    };
 }
 
 export { AppStore };

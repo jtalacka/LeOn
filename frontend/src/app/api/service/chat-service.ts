@@ -23,11 +23,13 @@ class ChatService {
 
     public readonly getChatMessages = (): Promise<Api.ChatMessagesDto> =>
         this.restService.get<Api.ChatMessagesDto>(`${ChatService.CHAT_MESSAGES}`);
-  // public readonly getSocketUrl = (): string => {
-  //   const loc = window.location;
 
-  //   return loc.host === "localhost:3000" ? "ws://localhost:8080/ws/currentLesson" : "wss://java-menuo-su-it.northeurope.cloudapp.azure.com/ws/currentLesson";
-  // };
+    public readonly getSocketUrl = (): string => {
+        const loc = window.location;
+
+        return loc.host === 'localhost:3000' ? 'ws://localhost:8080/ws/chat'
+            : 'wss://java-menuo-su-it.northeurope.cloudapp.azure.com/ws/chat';
+    };
 }
 
 const chatService = new ChatService();

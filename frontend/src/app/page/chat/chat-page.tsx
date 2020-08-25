@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { Layout, message } from 'antd';
+import React from 'react';
+import { Layout } from 'antd';
 import { FormikHelpers } from 'formik';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { PageContent } from 'app/components/layout';
 import { connectContext, SettingsProps } from 'app/context';
@@ -21,6 +20,7 @@ interface ContextProps {
     username: string | null;
     teacherLessons: Api.LessonDto[];
     userRoles: string[] | null;
+    messagesList: Api.ChatMessagesDto[];
 }
 
 interface OwnProps {}
@@ -144,7 +144,7 @@ class ChatComponent extends React.Component<Props, State> {
 
         this.ws.onmessage = e => {
             const message = JSON.parse(e.data);
-      // console.log('Chat page receives ',message.classroom);
+      console.log('Chat page receives ',message.classroom);
 
             const copyMsg = [...this.state.messages];
             const newMsg = [...copyMsg, message];
@@ -158,8 +158,8 @@ class ChatComponent extends React.Component<Props, State> {
     public render(): React.ReactNode {
         const { messages, channels, classRooms } = this.state;
         const { teacherLessons } = this.props;
-
-        // console.log(messages);
+        // console.log(messages)
+        // console.log(this.props.messagesList);
         // console.log(this.state.currentClassroom);
         // console.log(this.state.currentChannel);
         return (
@@ -258,10 +258,11 @@ class ChatComponent extends React.Component<Props, State> {
     };
 }
 
-const mapContextToProps = ({ session: { user }, lessons }: SettingsProps): ContextProps => ({
+const mapContextToProps = ({ session: { user }, lessons, messagesList }: SettingsProps): ContextProps => ({
     username: user != null ? user.firstName : null,
     userRoles: user.roles,
     teacherLessons: lessons,
+    messagesList: messagesList,
 });
 
 const ChatPage = connectContext(mapContextToProps)(ChatComponent);

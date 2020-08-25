@@ -4,6 +4,7 @@ import {
     INITIAL_SESSION,
     INITIAL_CURRENT_LESSON,
     INITIAL_SCHEDULE,
+    INITIAL_MESSAGES,
     SettingsProps as _SettingsProps,
     Session as _Session,
     CurrentUser as _CurrentUser,
@@ -21,4 +22,5 @@ export {
     INITIAL_SESSION,
     INITIAL_CURRENT_LESSON,
     INITIAL_SCHEDULE,
+    INITIAL_MESSAGES,
 };
