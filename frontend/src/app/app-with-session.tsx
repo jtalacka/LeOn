@@ -8,6 +8,7 @@ import { PageLoadingSpinner } from 'app/page/common/page-loading-spinner/page-lo
 import { loggerService } from 'app/service/logger-service';
 import { lessonsService } from 'app/api/service/lessons-service';
 import { chatService } from 'app/api/service/chat-service';
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
 interface State {
     content: React.ReactNode;
@@ -64,7 +65,8 @@ class AppWithSessionComponent extends React.Component<Props, State> {
                 loggerService.error('Error occurred when getting session information', error);
             });
 
-        chatService.getChatMessages()
+        chatService
+            .getChatMessages()
             .then(this.handleMessageResponse)
             .catch(error => {
                 loggerService.error('Error occurred when getting chat information', error);
@@ -106,7 +108,7 @@ class AppWithSessionComponent extends React.Component<Props, State> {
     private readonly handleSocketResponse = (): void => {
         const { updateCurrentLesson } = this.props;
         // connect to websocket to get currentLesson
-        const ws: any = new WebSocket(lessonsService.getSocketUrl());
+        const ws: any = new ReconnectingWebSocket(lessonsService.getSocketUrl());
 
         ws.onopen = () => {
             // tslint:disable-next-line: no-console
@@ -131,7 +133,7 @@ class AppWithSessionComponent extends React.Component<Props, State> {
 
     private readonly handleChatWebSocket = (): void => {
         const { updateMessages } = this.props;
-        const wsChat: any = new WebSocket(chatService.getSocketUrl());
+        const wsChat: any = new ReconnectingWebSocket(chatService.getSocketUrl());
 
         wsChat.onopen = () => {
             console.log('chat ws connected');
@@ -149,19 +151,19 @@ class AppWithSessionComponent extends React.Component<Props, State> {
 
         wsChat.onclose = () => {
             console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-            setTimeout(function() {
+            setTimeout(function () {
                 // connect();
             }, 1000);
         };
 
-        wsChat.onerror = function(err: any) {
+        wsChat.onerror = function (err: any) {
             console.error('Socket encountered error: ', err.message, 'Closing socket');
             wsChat.close();
         };
     };
     private readonly handleMessageResponse = (messagesList: Api.ChatMessagesDto[]): void => {
         const {
-            updateMessages
+            updateMessages,
         } = this.props;
 
         this.setState({ ...this.state, messagesList: [...messagesList] });
@@ -191,7 +193,7 @@ const mapContextToProps = (
         updateCurrentLesson,
         updateSchedule,
         updateMessages,
-    sendMessage,
+        sendMessage,
     });
 const AppWithSession = connectContext(mapContextToProps)(AppWithSessionComponent);
 
