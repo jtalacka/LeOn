@@ -64,12 +64,7 @@ class ChatComponent extends React.Component<Props, State> {
         return newUrl;
     };
 
-    private options: {} = {
-        connectionTimeout: 1000,
-        maxRetries: 10,
-    };
-
-    public ws = new ReconnectingWebSocket(this.getSocketUrl(), this.options);
+    public ws = new ReconnectingWebSocket(this.getSocketUrl());
 
     public readonly state: State = {
         messages: [],
