@@ -66,11 +66,14 @@ const VideoButton: React.FC<Props> = (props) => {
                 </Button>
                 <h1> Participants <span>({props.activeUsers}/{props.allUsers})</span></h1>
             </div>
-
+            {/* {showUsers &&
+                ( */}
             <ActiveUsers
                 activeUsers={props.users}
                 isOpen={showUsers}
             />
+            {/* )
+            } */}
             {
                 (props.role[0] === 'STUDENT') ? null :
 
@@ -86,27 +89,22 @@ const VideoButton: React.FC<Props> = (props) => {
                                     }}
                                 >
                                     <MessageOutlined style={{ transform: 'scale(1.5)' }} />
-                                </Button>
-                                <h1> Create a Question </h1>
-                            </div>
+                                </Button>Create a Question
+                        </div>
                             <QuizResult
                                 answers={props.answers}
                                 correct={props.correct}
                                 question={props.question}
                                 isOpen={props.replyVisible}
                             />
-                            <div
-                                onClick={props.handleWhiteboard}
-                                className={styles.videobtn}>
-                                <Button
-                                    type="primary"
-                                    style={{
-                                        borderRadius: '100%',
-                                        height: '50px',
-                                    }}><span
-                                        style={{ width: '20px', display: 'flex' }}><div style={{ transform: 'scale(1.5)' }}><Wand /></div></span></Button>
-                                <h1>Whiteboard</h1>
-                            </div>
+                            <div onClick={props.handleWhiteboard} className={styles.videobtn}><Button type="primary"
+                                style={{
+                                    borderRadius: '100%',
+                                    height: '50px',
+                                }}><span
+                                    style={{ width: '20px', display: 'flex' }}><Wand /></span></Button>
+                                    Whiteboard
+                                </div>
                             <Menu style={{ width: '100%' }}
                                 defaultSelectedKeys={['1']}
                                 defaultOpenKeys={['sub1']}
@@ -115,27 +113,12 @@ const VideoButton: React.FC<Props> = (props) => {
 
                                 <SubMenu
                                     className={styles.antMenuSubmenuTitleCustom}
-                                    style={{ height: '50px' }}
+                                    style={{ width: '100% !important', height: '50px' }}
                                     key="sub4"
-                                    title={
-                                        // <div><Button type="primary"
-                                        //     style={{ borderRadius: '100%', height: '50px' }}><span
-                                        //         style={{ width: '20px', display: 'flex' }}><div style={{ transform: 'scale(1.5)' }}><Wand /></div></span></Button><h1>Bonus Points</h1>
-                                        // </div>
-                                        <div className={styles.videobtn}>
-                                            <Button
-                                                type="primary"
-                                                style={{
-                                                    borderRadius: '100%',
-                                                    height: '50px',
-                                                    fontSize: '20px',
-                                                }}
-                                            >
-                                                <MessageOutlined style={{ transform: 'scale(1.5)', marginRight: '0px', fontSize: 'inherit' }} />
-                                            </Button>
-                                            <h1>Give Points</h1>
-                                        </div>
-                                    }>
+                                    title={<div><Button type="primary"
+                                        style={{ borderRadius: '100%', height: '50px' }}><span
+                                            style={{ width: '20px', display: 'flex' }}><Wand /></span></Button>Bonus Points
+                                        </div>}>
                                     <Menu.Item style={{ height: '500px', padding: '0!important' }}>
                                         <BonusPoints />
                                     </Menu.Item>
