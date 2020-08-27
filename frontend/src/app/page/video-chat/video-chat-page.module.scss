@@ -66,6 +66,15 @@ body {
     margin-bottom: 0px;
   }
 
+  .jitsiHidden {
+    height: 100% !important;
+    visibility: hidden;
+  }
+
+  .jitsiShown {
+    height: 100% !important;
+    visibility: visible;
+  }
   .userRow {
     display: flex;
     flex-direction: row;

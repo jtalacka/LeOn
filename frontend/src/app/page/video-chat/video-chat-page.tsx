@@ -75,6 +75,7 @@ interface State {
     showAcknowledgementModal: boolean;
     testSubmitted: boolean;
     timer: number;
+    jitsiLoaded: boolean;
 }
 
 type Props = OwnProps & ContextProps;
@@ -96,6 +97,7 @@ class HomePageComponent extends React.Component<Props, State> {
         showAcknowledgementModal: false,
         testSubmitted: false,
         timer: 0,
+        jitsiLoaded: false,
     };
 
     public openNotificationWithIcon = (message: string, description: string) => {
@@ -341,16 +343,18 @@ class HomePageComponent extends React.Component<Props, State> {
 
                         {videoChatName && (
                             <Jitsi
+                                frameStyle={
 
-                                frameStyle={{
-                                    display: 'block',
-                                    height: this.state.whiteboardVisible ? '180px' : '100%',
-                                    width: this.state.whiteboardVisible ? '450px' : '100%',
-                                    zIndex: this.state.whiteboardVisible ? 2000 : 1,
-                                    position: this.state.whiteboardVisible ? 'absolute' : 'inherit',
-                                    right: this.state.whiteboardVisible ? '20px' : null,
-                                    top: this.state.whiteboardVisible ? '10%' : null,
-                                }}
+                                    {
+
+                                        display: (this.state.jitsiLoaded ? 'block' : 'none'),
+                                        height: this.state.whiteboardVisible ? '180px' : '100%',
+                                        width: this.state.whiteboardVisible ? '450px' : '100%',
+                                        zIndex: this.state.whiteboardVisible ? 2000 : 1,
+                                        position: this.state.whiteboardVisible ? 'absolute' : 'inherit',
+                                        right: this.state.whiteboardVisible ? '20px' : null,
+                                        top: this.state.whiteboardVisible ? '10%' : null,
+                                    }}
                                 containerStyle={{ width: '90%', marginLeft: '5%', height: '70%' }}
                                 jwt="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250ZXh0Ijp7InVzZXIiOnsiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS9hcGkvbWFsZS9tZW51by1zdS1pdC5zdmciLCJuYW1lIjoiTcSXbnVvIHN1IElUIn19LCJhdWQiOiJtZW51b19zdV9pdCIsImlzcyI6Im1lbnVvX3N1X2l0Iiwic3ViIjoibWVldC5qaXRzaSIsInJvb20iOiIqIn0.6CKZU_JWLhtj9eKJ-VdFGQZyRzvTZz29fn7--_dp-jw"
                                 roomName={videoChatName}
@@ -366,13 +370,13 @@ class HomePageComponent extends React.Component<Props, State> {
                                     disableRemoteMute: userRoles[0] === 'STUDENT',
                                 }}
                                 interfaceConfig={userRoles[0] === 'STUDENT' &&
-                                {
-                                    TOOLBAR_BUTTONS: [
-                                        'microphone', 'camera', 'desktop', 'fullscreen', 'raisehand', 'hangup', 'chat',
-                                        'tileview', 'download', 'videoquality', 'filmstrip', 'invite', 'feedback',
-                                        'stats', 'shortcuts',
-                                    ],
-                                } || { SHOW_WATERMARK_FOR_GUESTS: false, SHOW_JITSI_WATERMARK: false }
+                                    {
+                                        TOOLBAR_BUTTONS: [
+                                            'microphone', 'camera', 'desktop', 'fullscreen', 'raisehand', 'hangup', 'chat',
+                                            'tileview', 'download', 'videoquality', 'filmstrip', 'invite', 'feedback',
+                                            'stats', 'shortcuts',
+                                        ],
+                                    } || { SHOW_WATERMARK_FOR_GUESTS: false, SHOW_JITSI_WATERMARK: false }
                                 }
                             />
                         )}
@@ -419,6 +423,11 @@ class HomePageComponent extends React.Component<Props, State> {
         navigationService.redirectToDefaultPage();
     };
     public jitsiActions = (api: any) => {
+        const iframe = api.getIFrame();
+
+        iframe.onload = () => {
+            this.setState({ jitsiLoaded: true });
+        };
         // api.executeCommand('startRecording', {
         //     mode: 'file',
         //     shouldShare: true,
@@ -429,6 +438,7 @@ class HomePageComponent extends React.Component<Props, State> {
             navigationService.redirectToHomePage();
             // navigationService.redirectToDefaultPage()
         });
+
     };
 }
 
