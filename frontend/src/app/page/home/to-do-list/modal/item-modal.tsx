@@ -28,6 +28,12 @@ const ItemModal: React.FC<Props> = (props) => {
         return months[month];
     };
 
+    let iconName = lessonSubject;
+    if (lessonSubject && lessonSubject.includes(' ')) {
+        const arr = lessonSubject.split(' ');
+        iconName = arr[0];
+    }
+
     return (
         <div className={styles.studentModal} style={{ boxShadow: 'none' }}>
             <div className={styles.subject}>
@@ -37,7 +43,7 @@ const ItemModal: React.FC<Props> = (props) => {
                 <div className={styles.circle}>
                     <img
                         alt="Lesson modal icon"
-                        src={`icons/subjects/${lessonSubject}.svg`}
+                        src={`icons/subjects/${iconName}.svg`}
                     />
                 </div>
                 {/* <h2>{lessonSubject}</h2> */}
