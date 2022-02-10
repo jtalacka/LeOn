@@ -46,7 +46,7 @@
     "concurrently": "^5.2.0",
     "dtsgenerator": "^2.7.0",
     "mkdirp": "^1.0.4",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "nodemon": "^2.0.4",
     "rimraf": "^3.0.2",
     "stylelint": "^13.6.1",
